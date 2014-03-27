@@ -1,19 +1,3 @@
-// Example Bot #1: The Reference Bot
-
-
-/** This bot builds a 'direction value map' that assigns an attractiveness score to
-  * each of the eight available 45-degree directions. Additional behaviors:
-  * - aggressive missiles: approach an enemy master, then explode
-  * - defensive missiles: approach an enemy slave and annihilate it
-  *
-  * The master bot uses the following state parameters:
-  *  - dontFireAggressiveMissileUntil
-  *  - dontFireDefensiveMissileUntil
-  *  - lastDirection
-  * The mini-bots use the following state parameters:
-  *  - mood = Aggressive | Defensive | Lurking
-  *  - target = remaining offset to target location
-  */
 object ControlFunction
 {
     def forMaster(bot: Bot) {
