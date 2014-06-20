@@ -26,10 +26,45 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    val stack = List()
+    check(chars, stack)
+
+  }
+
+  def check(chars:List[Char], stack: List[Char]): Boolean = {
+    if (chars.isEmpty) {
+      if (stack.isEmpty) {
+        true
+      }
+      else {
+        false
+      }
+    }
+    // Stack is not empty
+    else if (chars.head == ')') {
+      if (!stack.isEmpty) {
+        val poppedStack = stack.tail
+        check(chars.tail, poppedStack)
+      }
+      else {
+        false
+      }
+    } else if (chars.head == '(') {
+      val pushedStack = '('::stack
+      check(chars.tail, pushedStack)
+    }
+    else {
+      check(chars.tail, stack)
+    }
+
+  }
+
 
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    1
+  }
 }
