@@ -137,4 +137,11 @@ class FunSetSuite extends FunSuite {
       assert(!contains(f, 1), "Filtered out right value")
     }
   }
+
+  test("forall") {
+    new TestSets {
+      val s = union(s1, s2)
+      assert( forall(s, (x: Int) => x <= 2), "Test if bounded elements are less than 2" )
+    }
+  }
 }
