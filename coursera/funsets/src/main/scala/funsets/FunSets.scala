@@ -79,7 +79,14 @@ object FunSets {
    * Returns the subset of `s` for which `p` holds.
    */
   def filter(s: Set, p: Int => Boolean): Set = {
-    
+    (x: Int) => {
+      if (s(x) && p(x)) {
+        true
+      }
+      else {
+        false
+      }
+    }
   }
 
   /**

@@ -128,4 +128,13 @@ class FunSetSuite extends FunSuite {
       assert(!contains(d, 1), "Difference took out 1")
     }
   }
+
+  test("filter") {
+    new TestSets {
+      val s = union(s1, s2)
+      val f = filter(s, (x: Int) => x > 1)
+      assert(contains(f, 2), "Filtered held right value")
+      assert(!contains(f, 1), "Filtered out right value")
+    }
+  }
 }
