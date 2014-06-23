@@ -1,4 +1,4 @@
-object p6 {
+object p7 {
   def main(args: Array[String]): Unit = {
     val result = flatten(List(List(1,1), 2, List(3, List(5, 8))))
 
