@@ -74,7 +74,19 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet = {
+    var tw = new Tweet("", "", -1)
+    foreach(t => {
+      if (t.text > tw.text) {
+        tw = t
+      }
+    })
+    if (tw.user == "" && tw.text == "" && tw.retweets == -1) {
+      throw new java.util.NoSuchElementException("head of EmptyList")
+    } else {
+      tw
+    }
+  }
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -85,7 +97,21 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = {
+    def iter(acc: TweetSet, tl: TweetList): TweetList = {
+      try {
+          val newtl = new Cons(acc.mostRetweeted, tl)
+          val subset = acc.remove(acc.mostRetweeted)
+          iter(subset, newtl)
+      } catch {
+        case e:Exception => tl
+      }
+
+    }
+
+    iter(this, Nil)
+
+  }
 
 
   /**
