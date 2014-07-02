@@ -81,7 +81,36 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def iter(cl: List[Char], cil: List[(Char, Int)]) : List[(Char, Int)] = {
+      if (cl.isEmpty){
+        return cil
+      }
+      else {
+        var newList: List[(Char, Int)] = null
+        if (cil.exists(tuple => tuple._1 == cl.head)) {
+          // Add one to the cil
+          cil.foreach(tuple => {
+            if (tuple._1 == cl.head) {
+              val addOne = tuple._2 + 1
+              newList = newList :+ (tuple._1, addOne)
+            }
+            else {
+              newList = newList :+ (tuple._1, tuple._2)
+            }
+          })
+
+        } else {
+          // Create new entry in cil
+          newList = newList :+ (cl.head, 1)
+
+        }
+        iter(cl.tail, newList)
+      }
+    }
+    var acc: List[(Char, Int)] = null
+    iter(chars, acc)
+  }
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
