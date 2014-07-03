@@ -119,7 +119,35 @@ object Huffman {
    * head of the list should have the smallest weight), where the weight
    * of a leaf is the frequency of the character.
    */
-  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = ???
+  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
+    def max(given: List[(Char, Int)], maxC: Char, maxI: Int): (Char, Int) = {
+      if (given.isEmpty) {
+        (maxC, maxI)
+      } else {
+        if (given.head._2 > maxI) {
+          max(given.tail, given.head._1, given.head._2)
+
+        } else {
+          max(given.tail, maxC, maxI)
+        }
+      }
+    }
+
+    def leafBuilder(f: List[(Char, Int)], acc: List[Leaf]): List[Leaf] =  {
+      if (f.isEmpty) {
+        acc
+      } else {
+        val newTuple = max(f, '-', -1)
+        leafBuilder(f.filter(t => newTuple != t), List(new Leaf(newTuple._1, newTuple._2)) ++ acc)
+      }
+
+    }
+
+    val i: List[Leaf] = List()
+    leafBuilder(freqs, i)
+
+
+  }
 
   /**
    * Checks whether the list `trees` contains only one single code tree.
