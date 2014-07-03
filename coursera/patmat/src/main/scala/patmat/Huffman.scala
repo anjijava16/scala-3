@@ -239,7 +239,34 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def getChar(t: CodeTree, bitList: List[Bit], acc: List[Char]): List[Char] = {
+      /*println(acc)
+      println(t)*/
+      /*sys.exit(0)*/
+      if (bitList.isEmpty) {
+        /*println("final")
+        println(acc)*/
+        acc ++ chars(t)
+      } else {
+        t match {
+          case f: Fork => {
+            if (bitList.head == 0) {
+              getChar(f.left, bitList.tail, acc)
+            } else {
+              getChar(f.right, bitList.tail, acc)
+            }
+          }
+          case l: Leaf => {
+            getChar(tree, bitList, acc ++ List(l.char))
+          }
+        }
+      }
+    }
+
+    val i: List[Char] = Nil
+    getChar(tree, bits, i)
+  }
 
   /**
    * A Huffman coding tree for the French language.
@@ -257,7 +284,7 @@ object Huffman {
   /**
    * Write a function that returns the decoded secret
    */
-  def decodedSecret: List[Char] = ???
+  def decodedSecret: List[Char] = decode(frenchCode, secret)
 
 
 
@@ -267,7 +294,32 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    def getBit(t: CodeTree, charList: List[Char], acc: List[Bit]): List[Bit] = {
+      /*println(acc)
+      sys.exit(0)*/
+      if (charList.isEmpty) {
+        println(acc)
+        acc
+      } else {
+        t match {
+          case f: Fork => {
+            if (chars(f.left).contains(charList.head)) {
+              getBit(f.left, charList, acc ++ List(0))
+            } else {
+              getBit(f.right, charList, acc ++ List(1))
+            }
+          }
+          case l: Leaf => {
+            getBit(tree, charList.tail, acc)
+          }
+        }
+      }
+    }
+
+    val i: List[Bit] = Nil
+    getBit(tree, text, i)
+  }
 
 
   // Part 4b: Encoding using code table
