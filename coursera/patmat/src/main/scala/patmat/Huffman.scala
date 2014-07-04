@@ -87,7 +87,7 @@ object Huffman {
         return cil
       }
       else {
-        var newList: List[(Char, Int)] = null
+        var newList: List[(Char, Int)] = Nil
         if (cil.exists(tuple => tuple._1 == cl.head)) {
           // Add one to the cil
           cil.foreach(tuple => {
@@ -108,7 +108,7 @@ object Huffman {
         iter(cl.tail, newList)
       }
     }
-    var acc: List[(Char, Int)] = null
+    var acc: List[(Char, Int)] = Nil
     iter(chars, acc)
   }
 
