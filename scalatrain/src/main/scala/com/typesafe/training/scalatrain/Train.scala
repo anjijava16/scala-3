@@ -1,6 +1,17 @@
 package com.typesafe.training.scalatrain
 
-case class Train(kind: String, num: Int)
+case class Station(name: String)
+
+case class Train(kind: String, num: Int, schedule: Seq[(Time, Station)]) {
+  val stations: Seq[Station] = schedule.map(s => s._2)
+  require(schedule.length >= 2)
+
+  // TODO: verify that schedule is strictly increasing in time
+}
+
+case class JourneyPlanner(trains: Set[Train]) {
+  val stations: Set[Station] = trains.flatMap(t => t.stations)
+}
 
 //object MyApp extends App {
 //  println(new Time(5, 5))
