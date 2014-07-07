@@ -128,9 +128,9 @@ object Anagrams {
     }
 
     val charList = occurrencesToCharList(occurrences)
-    println(charList)
+    /*println(charList)*/
     val allSubsets = getSubsets(charList)
-    println(allSubsets)
+    /*println(allSubsets)*/
     allSubsets.map(x => wordOccurrences(x.mkString))
 
 
@@ -146,7 +146,26 @@ object Anagrams {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    def occurrencesToCharList(occurs: Occurrences): List[Char] = {
+      if (occurs.isEmpty) {
+        Nil
+      }
+      else if(occurs.head._2 > 1) {
+        val newOccurs: Occurrences = List((occurs.head._1, occurs.head._2 - 1))
+        List(occurs.head._1) ++ occurrencesToCharList(newOccurs ++ occurs.tail)
+      }
+      else {
+        List(occurs.head._1) ++ occurrencesToCharList(occurs.tail)
+      }
+    }
+
+    val xList = occurrencesToCharList(x)
+    val yList = occurrencesToCharList(y)
+    val difference = xList diff yList
+    wordOccurrences(difference.mkString)
+
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *
