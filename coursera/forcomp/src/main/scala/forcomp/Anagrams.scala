@@ -70,10 +70,15 @@ object Anagrams {
    *    List(('a', 1), ('e', 1), ('t', 1)) -> Seq("ate", "eat", "tea")
    *
    */
-  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = ???
+  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = {
+    dictionary.groupBy(wordOccurrences)
+
+  }
 
   /** Returns all the anagrams of a given word. */
-  def wordAnagrams(word: Word): List[Word] = ???
+  def wordAnagrams(word: Word): List[Word] = {
+    dictionaryByOccurrences(wordOccurrences(word))
+  }
 
   /** Returns the list of all subsets of the occurrence list.
    *  This includes the occurrence itself, i.e. `List(('k', 1), ('o', 1))`
@@ -97,7 +102,39 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = {
+
+    def occurrencesToCharList(occurs: Occurrences): List[Char] = {
+      if (occurs.isEmpty) {
+        Nil
+      }
+      else if(occurs.head._2 > 1) {
+        val newOccurs: Occurrences = List((occurs.head._1, occurs.head._2 - 1))
+        List(occurs.head._1) ++ occurrencesToCharList(newOccurs ++ occurs.tail)
+      }
+      else {
+        List(occurs.head._1) ++ occurrencesToCharList(occurs.tail)
+      }
+    }
+
+    def getSubsets(lc: List[Char]): List[List[Char]] = {
+      val out = for {
+        i <- 0 to lc.length
+        combination <- lc.combinations(i)
+      } yield {
+        combination
+      }
+      out.toList
+    }
+
+    val charList = occurrencesToCharList(occurrences)
+    println(charList)
+    val allSubsets = getSubsets(charList)
+    println(allSubsets)
+    allSubsets.map(x => wordOccurrences(x.mkString))
+
+
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    *
